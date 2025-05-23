@@ -3,8 +3,18 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
+// Routers
+const authRouter = require('./routes/auth');
+const jobsRouter = require('./routes/jobs');
+// Error handling middleware
+const notFoundMiddleware = require('./middleware/not-found');
+const errorHandlerMiddleware = require('./middleware/error-handler');
+
+
 // Middleware
 app.use(express.json());
+
+
 
 // Connect to MongoDB
 mongoose
@@ -15,9 +25,6 @@ mongoose
   .then(() => console.log('✅ MongoDB Connected'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// Routers
-const authRouter = require('./routes/auth');
-const jobsRouter = require('./routes/jobs');
 
 // Route handlers
 app.get('/', (req, res) => {
@@ -27,9 +34,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', jobsRouter);
 
-// Error handling middleware
-const notFoundMiddleware = require('./middleware/not-found');
-const errorHandlerMiddleware = require('./middleware/error-handler');
+
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
