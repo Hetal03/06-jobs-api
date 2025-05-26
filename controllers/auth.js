@@ -22,9 +22,9 @@ const register = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Create user with hashed password
-    const user = await User.create({ name, email, password: hashedPassword });
+   // const user = await User.create({ name, email, password: hashedPassword });
 
-   // const user = await User.create({ name, email, password });
+    const user = await User.create({ name, email, password });
 
     const token = jwt.sign(
       { userId: user._id, name: user.name },
@@ -68,4 +68,18 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login };
+const deleteUser = async (req, res, next) => {
+  try {
+    const { email } = req.params;
+    const user = await User.findOneAndDelete({ email });
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).json({ msg: 'User not found' });
+    }
+    res.status(StatusCodes.OK).json({ msg: 'User deleted' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+module.exports = { register, login, deleteUser};
