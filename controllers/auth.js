@@ -18,8 +18,8 @@ const register = async (req, res, next) => {
     }
 
        // Hash the password before saving
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    //const saltRounds = 10;  removed as per your suggestion
+    //const hashedPassword = await bcrypt.hash(password, saltRounds); removed as per your suggestion
 
     // Create user with hashed password
    // const user = await User.create({ name, email, password: hashedPassword });
