@@ -68,15 +68,19 @@ mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(() => console.log('✅ MongoDB Connected'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 
 // Route handlers
-app.get('/', (req, res) => {
-  res.send('jobs api');
-});
+//app.get('/', (req, res) => {
+//  res.send('jobs api');
+//});
+
+app.use(express.static('public'));
+
 
 app.use('/api/v1/auth', authRouter);
 //app.use('/api/v1/jobs', jobsRouter);
